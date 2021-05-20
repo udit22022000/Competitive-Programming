@@ -57,20 +57,30 @@ void constInDetail() {
 	//z = &k;   //this will throw an error...
 	cout << *z << endl;
 
+	cout << "====================" << endl;
 
+	//NOTE: --- completely blocked...address to which pointer is pointing is not changable...and value also can't be changed...
+	const int MAXX = 1000;
+	const int* const ex = &MAXX;  //completely blocked...
 
 }
 
 class Test {
 public:
-	int x;
+	int x = 100;
 	static int y;
 
 	//const functions are generally used in the getter methods...
 	int getX() const {
-		//x = 10;  //since we have written const after function name...value of member variables can be changed..
-		y =  20;  //but we can assign values to static variable inside const function....will discuss later about it..
+		//x = 10;  //since we have written const after function name...value of non-static member variables can't be changed..
+		//y =  20;  //but we can assign values to static variable inside const function....will discuss later about it..
+		cout << "with const" << endl;
+		return x;
+	}
 
+	//non const version of getX...//overloading getX...
+	int getX() {
+		cout << "without const" << endl;
 		return x;
 	}
 
@@ -80,13 +90,32 @@ public:
 
 };
 
+void func(const int x) {
+	//x = 10;  //it will throw an error....//we can't change the value of const int type parameters....
+}
+
+void func2(Test &t) {
+	cout << t.getX() << endl;
+}
+
+void func3(const Test &t) {
+	cout << t.getX() << endl;
+}
+
+
 int main(int argc, char const *argv[]) {
 	file_i_o();
 
-	//all about const .///
-	constInDetail();
+	//Const In Detail -- Uncomment and run this function///.///
+	//constInDetail();
 
+	//const params can't be changed
+	//func(54);
 
+	//Class Test...
+	Test hello;
+	func2(hello);
+	func3(hello);
 
 
 	return 0;
